@@ -8,8 +8,8 @@ class Triangle:
                  p_0      = [  0,  0,  1],
                  p_1      = [  0,  1,  0],
                  p_2      = [  1,  0,  0],
-                 distance = 5,
                  color    = [225,  0,255],
+                 distance = 5,
                  fill     = True,
                  width    = 4):
         # Absolute coords for three points
@@ -54,19 +54,27 @@ class Triangle:
  
     def translate(self, d_x, d_y, d_z):
 
-        for point in [self.tp0,self.tp1,self.tp2]:
+        for point in list([self.tp0,self.tp1,self.tp2]):
+            print(point[2],d_z)
             self.tp0[0] = point[0] + d_x
             self.tp1[1] = point[1] + d_y
             self.tp2[2] = point[2] + d_z
 
     def flatten(self):
+
+        if self.p0[2] == 0:
+            self.p0[2] += 0.0000000001
+        if self.p1[2] == 0:
+            self.p1[2] += 0.0000000001
+        if self.p2[2] == 0:
+            self.p2[2] += 0.0000000001
         
         self.fp0[0] = (self.p0[0]*(1.0/(self.p0[2]))*60+WIDTH/2,
                             self.p0[1]*(1.0/(self.p0[2]))*60+HEIGHT/2)
         self.fp1[1] = (self.p1[0]*(1.0/(self.p1[2]))*60+WIDTH/2,
                             self.p1[1]*(1.0/(self.p1[2]))*60+HEIGHT/2)
-        self.fp2[2] = (self.p2[0]*(1.0/(self.p2[2]))*60+WIDTH/2,
-                            self.p2[1]*(1.0/(self.p2[2]))*60+HEIGHT/2)
+
+        print(self.fp0)
 
     def draw(self,surface):
 
@@ -74,6 +82,7 @@ class Triangle:
         self.flatten()
 
         if self.fill == True:
+            print(self.fp0,self.fp1)
             pygame.draw.polygon(surface,self.color,[self.fp0,self.fp1,self.fp2])
             
         if self.width > 0:
